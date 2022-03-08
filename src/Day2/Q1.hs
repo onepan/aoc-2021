@@ -15,5 +15,5 @@ movement2d direction distance
 
 solve :: String -> Int
 solve contents =
-  let displacement= foldr ((+) . fmap (fromIntegral :: Int -> Float)) (0 :+ 0) $ parseInstructions $ words contents
+  let displacement = foldr ((+) . fmap (fromIntegral :: Int -> Float)) (0 :+ 0) $ parseInstructions $ words contents
    in truncate $ realPart displacement * imagPart displacement

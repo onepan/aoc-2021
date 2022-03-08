@@ -1,5 +1,4 @@
-module Day1.Q1
-where
+module Day1.Q1 where
 
 countIncreases :: (Ord a, Num a) => [a] -> Int
 countIncreases xs = length $ filter (> 0) (diff xs)
