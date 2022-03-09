@@ -1,19 +1,19 @@
 module Day2.Q2 where
 
-import Data.Complex
+data Status = Status
+  { x :: Int,
+    y :: Int,
+    aim :: Int
+  }
 
-parseInstructions :: [String] -> [Complex Int]
-parseInstructions [] = [0 :+ 0]
-parseInstructions (dir : dist : xs) = movement2d dir (read dist :: Int) : parseInstructions xs
-parseInstructions _ = error "bad instruction"
-
-movement2d :: String -> Int -> Complex Int
-movement2d direction distance
-  | direction == "forward" = distance :+ 0
-  | direction == "up" = 0 :+ (- distance)
-  | otherwise = 0 :+ distance
+step :: [String] -> Status -> Status
+step ln s = case ln of
+  ["forward", value] -> s {x = x s + read value, y = y s + aim s * read value}
+  ["down", value] -> s {aim = aim s + read value}
+  ["up", value] -> s {aim = aim s - read value}
+  _ -> s
 
 solve :: String -> Int
 solve contents =
-  let displacement = foldr ((+) . fmap fromIntegral) (0 :+ 0) $ parseInstructions $ words contents :: Complex Float
-   in truncate $ realPart displacement * imagPart displacement
+  let status = foldr (step . words) (Status 0 0 0) $ reverse $ lines contents
+   in x status * y status

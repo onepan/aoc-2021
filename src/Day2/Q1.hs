@@ -4,7 +4,7 @@ import Data.Complex
 
 parseInstructions :: [String] -> [Complex Int]
 parseInstructions [] = [0 :+ 0]
-parseInstructions (dir : dist : xs) = movement2d dir (read dist :: Int) : parseInstructions xs
+parseInstructions (dir : dist : xs) = movement2d dir (read dist) : parseInstructions xs
 parseInstructions _ = error "bad instruction"
 
 movement2d :: String -> Int -> Complex Int
@@ -15,5 +15,5 @@ movement2d direction distance
 
 solve :: String -> Int
 solve contents =
-  let displacement = foldr ((+) . fmap fromIntegral) (0 :+ 0) $ parseInstructions $ words contents :: Complex Float
+  let displacement = foldr ((+) . fmap fromIntegral) (0 :+ 0) $ parseInstructions $ reverse $ words contents :: Complex Float
    in truncate $ realPart displacement * imagPart displacement
